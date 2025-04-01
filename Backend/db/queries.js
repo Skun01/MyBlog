@@ -25,7 +25,9 @@ async function getUserById(userId){
 }
 // Post query
 async function getAllPosts(){
-    const {rows} = await pool.query('SELECT * FROM posts');
+    const {rows} = await pool.query(
+        'SELECT title, content, created_at, username FROM posts JOIN users ON posts.user_id = users.id'
+    );
     return rows;
 }
 

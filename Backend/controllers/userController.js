@@ -25,6 +25,7 @@ async function loginUser(req, res){
                 {expiresIn: '24h'},
             )
             res.json({token});
+            return;
         }
     }
     res.status(404).json({error: 'User not found!'});
@@ -32,9 +33,7 @@ async function loginUser(req, res){
 }
 
 async function getUserById(req, res){
-    const {userId} = req.params;
-    const user = await db.getUserById(userId);
-    res.json(user);
+    res.json(req.user);
 }
 
 async function getUserByEmail(req, res){

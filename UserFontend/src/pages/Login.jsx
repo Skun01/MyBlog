@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../components/footer';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -8,20 +8,24 @@ function Login() {
     const [password, setPassword] = useState('');
     const [submit, setSubmit] = useState(false);
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [touched, setTouched] = useState({
         email: false,
         password: false
     });
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchLogin = async () => {
             try {
+                setIsLoading(true);
                 const response = await axios.post(`http://localhost:3000/myblog/login`, {
                     email,
                     password,
                 });
+                setIsLoading(false);
                 console.log(response);
-                // Xử lý khi đăng nhập thành công
+                localStorage.setItem('token', response.data.token);
+                navigate('/')
             } catch (error) {
                 console.error('Lỗi đăng nhập:', error);
                 setError('Đăng nhập thất bại. Vui lòng kiểm tra lại.');
@@ -110,7 +114,9 @@ function Login() {
                         Check this useless checkbox to sign in
                     </label>
                 </div>
-                <button type="submit">Sign in</button>
+                <button type="submit" disabled={isLoading}>
+                    {isLoading ? 'Đang đăng nhập...' : 'Sign in'}
+                </button>
                 <div className="auth-swap-page">
                     <p className="auth-swap-content">Don't have an account?</p>
                     <Link to="/register" className="auth-link">Create new</Link>
