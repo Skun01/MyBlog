@@ -1,0 +1,21 @@
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer{
+    height: 20vh;
+    color: white;
+    text-align: center;
+    padding-top: 25px;
+}
+
+.footer a{
+    color: #ccc;
+    text-decoration: wavy;
+}
+
+.footer a:hover{
+    text-decoration: underline;
+}
+
